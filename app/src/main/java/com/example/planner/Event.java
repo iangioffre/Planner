@@ -4,6 +4,7 @@ public class Event {
 
     // fields
 
+    private int id;
     private String title;
     private String dateTime;
     private String course;
@@ -13,6 +14,7 @@ public class Event {
     // constructors
 
     public Event() {
+        id = -1;
         title = "";
         dateTime = "";
         course = "";
@@ -20,7 +22,8 @@ public class Event {
         notes = "";
     }
 
-    public Event(String title, String dateTime, String course, int priority, String notes) {
+    public Event(int id, String title, String dateTime, String course, int priority, String notes) {
+        this.id = id;
         this.title = title;
         this.dateTime = dateTime;
         this.course = course;
@@ -29,6 +32,14 @@ public class Event {
     }
 
     // methods
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;

@@ -4,28 +4,27 @@ public class Assignment extends Event {
 
     // fields
 
-    private Boolean isDone;
+    private int isDone;
 
     // constructors
 
     public Assignment() {
         super();
-        isDone = false;
+        isDone = 0;
     }
 
-    public Assignment(String title, String dateTime, String course, int priority, String notes, Boolean isDone) {
-        super(title, dateTime, course, priority, notes);
+    public Assignment(int id, String title, String dateTime, String course, int priority, String notes, int isDone) {
+        super(id, title, dateTime, course, priority, notes);
         this.isDone = isDone;
     }
 
-
     // methods
 
-    public Boolean getDone() {
+    public int getIsDone() {
         return isDone;
     }
 
-    public void setDone(Boolean done) {
-        isDone = done;
+    public void setIsDone(int isDone) {
+        this.isDone = isDone;
     }
 }

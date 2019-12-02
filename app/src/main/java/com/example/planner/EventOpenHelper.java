@@ -107,22 +107,47 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     }
 
     public void insertMeeting(Event event) {
-        String sqlInsert = "";
+        String sqlInsert = "INSERT INTO " + MEETINGS_TABLE + " VALUES(null, '" +
+                event.getTitle() + "', '" +
+                event.getDateTime() + "', '" +
+                event.getCourse() + "', " +
+                event.getPriority() + ", '" +
+                event.getNotes() + "')";
+        Log.d(TAG, "insertMeeting: " + sqlInsert);
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlInsert);
         db.close();
     }
 
     public void insertAssignment(Assignment assignment) {
-        String sqlInsert = "";
+        String sqlInsert = "INSERT INTO " + MEETINGS_TABLE + " VALUES(null, '" +
+                assignment.getTitle() + "', '" +
+                assignment.getDateTime() + "', '" +
+                assignment.getCourse() + "', " +
+                assignment.getPriority() + ", " +
+                assignment.getIsDone() + ", '" +
+                assignment.getNotes() + "'')";
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlInsert);
         db.close();
     }
 
+    public void deleteCourse(Course course) {
+
+    }
+
+    public void deleteMeeting(Event event) {
+
+    }
+
+    public void deleteAssignment(Assignment assignment) {
+
+    }
+
     public Cursor getSelectAllEventsCursor() {
         String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " UNION SELECT " +
-                ID + ", " + TITLE + ", " + DUE_DATE + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE;
+                ID + ", " + TITLE + ", " + DUE_DATE + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE +
+                " WHERE strftime('%Y-%m-%d %H-%M-%S','now')";
         Log.d(TAG, "getSelectAllEventsCursor: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect, null);

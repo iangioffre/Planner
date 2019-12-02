@@ -17,8 +17,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(listView);
 
         EventOpenHelper openHelper = new EventOpenHelper(this);
-        Course course = new Course();
-        openHelper.insertCourse(course);
+        Event event = new Event();
+        event.setTitle("TITLE");
+        openHelper.insertMeeting(event);
 
         Cursor cursor = openHelper.getSelectAllEventsCursor();
         SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(

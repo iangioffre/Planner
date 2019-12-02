@@ -4,6 +4,7 @@ public class Course {
 
     // fields
 
+    private int id;
     private String name;
     private int onMonday;
     private int onTuesday;
@@ -16,6 +17,7 @@ public class Course {
     // constructors
 
     public Course() {
+        id = -1;
         name = "";
         onMonday = 0;
         onTuesday = 0;
@@ -26,7 +28,8 @@ public class Course {
         endTime = "";
     }
 
-    public Course(String name, int onMonday, int onTuesday, int onWednesday, int onThursday, int onFriday, String startTime, String endTime) {
+    public Course(int id, String name, int onMonday, int onTuesday, int onWednesday, int onThursday, int onFriday, String startTime, String endTime) {
+        this.id = id;
         this.name = name;
         this.onMonday = onMonday;
         this.onTuesday = onTuesday;
@@ -38,6 +41,14 @@ public class Course {
     }
 
     // methods
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
