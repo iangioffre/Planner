@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/addMenuItem"
+        android:title="Add Item"
+        android:icon="@android:drawable/ic_menu_add"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/sortMenuItem"
+        android:title="Sort Events"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/classListMenuItem"
+        android:title="Class List"
+        app:showAsAction="never"
+        />
+
+</menu>
