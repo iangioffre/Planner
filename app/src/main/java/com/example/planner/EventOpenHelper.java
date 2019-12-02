@@ -6,46 +6,57 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.planner.Assignment;
+import com.example.planner.Event;
+
 import java.util.ArrayList;
 
 public class EventOpenHelper extends SQLiteOpenHelper {
     static final String TAG = "SQLiteFunTag";
 
-    // define some fields for our database
-    static final String DATABASE_NAME = "contactsDatabase";
-    static final int DATABASE_VERSION = 1;
+    // fields
 
-    static final String TABLE_CONTACTS = "tableContacts";
-    static final String ID = "_id"; // _id is for use with adapters later
-    static final String NAME = "name";
-    static final String PHONE_NUMBER = "phoneNumber";
-    static final String IMAGE_RESOURCE = "imageResource";
+    private static final String DATABASE_NAME = "plannerDatabase";
+    private static final int DATABASE_VERSION = 1;
 
-    public ContactOpenHelper(Context context) {
+    private static final String EVENTS_TABLE = "events";
+    private static final String ASSIGNMENTS_TABLE = "assignments";
+    private static final String COURSES_TABLE = "courses";
+
+    private static final String ID = "_id"; // _id is for use with adapters later
+
+    private static final String NAME = "name";
+    private static final String ON_MONDAY = "on_monday";
+    private static final String ON_TUESDAY = "on_tuesday";
+    private static final String ON_WEDNESDAY = "on_wednesday";
+    private static final String ON_THURDAY = "on_thursday";
+    private static final String ON_FRIDAY = "on_friday";
+    private static final String START_TIME = "start_time";
+    private static final String STOP_TIME = "end_time";
+
+    private static final String TITLE = "title";
+    private static final String DUE_DATE = "due_date";
+    private static final String DATE_TIME = "date_time";
+    private static final String COURSE = "course";
+    private static final String PRIORITY = "priority";
+    private static final String IS_DONE = "id_done";
+    private static final String NOTES = "notes";
+
+    // constructors
+
+    public EventOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // methods
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // where we create tables in our database
-        // construct a SQL statement to create a table to store contacts
-        // CREATE TABLE tableContacts(_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        // name TEXT,
-        // phoneNumber TEXT,
-        // imageResource INTEGER)
-
-        // create a string that represents our SQL statement
-        // structured query language
-        String sqlCreate = "CREATE TABLE " + TABLE_CONTACTS +
+        String sqlCreate = "CREATE TABLE " + COURSES_TABLE +
                 "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                NAME + " TEXT, " +
-                PHONE_NUMBER + " TEXT, " +
-                IMAGE_RESOURCE + " INTEGER)";
+                NAME + " "
         Log.d(TAG, "onCreate: " + sqlCreate);
-        // execute this sql statement
         sqLiteDatabase.execSQL(sqlCreate);
-        // onCreate() only executes one time
-        // and that is after the first call to getWritableDatabase()
     }
 
     @Override
@@ -53,14 +64,15 @@ public class EventOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertContact(Contact contact) {
-        // INSERT INTO tableContacts VALUES(null, 'Spike the Bulldog',
-        // '509-509-5095', -1)
-        String sqlInsert = "INSERT INTO " + TABLE_CONTACTS + " VALUES(null, '" +
-                contact.getName() + "', '" +
-                contact.getPhoneNumber() + "', " +
-                contact.getImageResourceId() + ")";
-        Log.d(TAG, "insertContact: " + sqlInsert);
+    public void insertEvent(Event event) {
+        String sqlInsert = "";
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(sqlInsert);
+        db.close(); // good practice to close database open for writing
+    }
+
+    public void insertAssignment(Assignment assignment) {
+        String sqlInsert = "";
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlInsert);
         db.close(); // good practice to close database open for writing
