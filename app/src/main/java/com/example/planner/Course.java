@@ -5,11 +5,11 @@ public class Course {
     // fields
 
     private String name;
-    private Boolean onMonday;
-    private Boolean onTuesday;
-    private Boolean onWednesday;
-    private Boolean onThursday;
-    private Boolean onFriday;
+    private int onMonday;
+    private int onTuesday;
+    private int onWednesday;
+    private int onThursday;
+    private int onFriday;
     private String startTime;
     private String endTime;
 
@@ -17,16 +17,16 @@ public class Course {
 
     public Course() {
         name = "";
-        onMonday = false;
-        onTuesday = false;
-        onWednesday = false;
-        onThursday = false;
-        onFriday = false;
+        onMonday = 0;
+        onTuesday = 0;
+        onWednesday = 0;
+        onThursday = 0;
+        onFriday = 0;
         startTime = "";
         endTime = "";
     }
 
-    public Course(String name, Boolean onMonday, Boolean onTuesday, Boolean onWednesday, Boolean onThursday, Boolean onFriday, String startTime, String endTime) {
+    public Course(String name, int onMonday, int onTuesday, int onWednesday, int onThursday, int onFriday, String startTime, String endTime) {
         this.name = name;
         this.onMonday = onMonday;
         this.onTuesday = onTuesday;
@@ -47,43 +47,43 @@ public class Course {
         this.name = name;
     }
 
-    public Boolean getOnMonday() {
+    public int getOnMonday() {
         return onMonday;
     }
 
-    public void setOnMonday(Boolean onMonday) {
+    public void setOnMonday(int onMonday) {
         this.onMonday = onMonday;
     }
 
-    public Boolean getOnTuesday() {
+    public int getOnTuesday() {
         return onTuesday;
     }
 
-    public void setOnTuesday(Boolean onTuesday) {
+    public void setOnTuesday(int onTuesday) {
         this.onTuesday = onTuesday;
     }
 
-    public Boolean getOnWednesday() {
+    public int getOnWednesday() {
         return onWednesday;
     }
 
-    public void setOnWednesday(Boolean onWednesday) {
+    public void setOnWednesday(int onWednesday) {
         this.onWednesday = onWednesday;
     }
 
-    public Boolean getOnThursday() {
+    public int getOnThursday() {
         return onThursday;
     }
 
-    public void setOnThursday(Boolean onThursday) {
+    public void setOnThursday(int onThursday) {
         this.onThursday = onThursday;
     }
 
-    public Boolean getOnFriday() {
+    public int getOnFriday() {
         return onFriday;
     }
 
-    public void setOnFriday(Boolean onFriday) {
+    public void setOnFriday(int onFriday) {
         this.onFriday = onFriday;
     }
 

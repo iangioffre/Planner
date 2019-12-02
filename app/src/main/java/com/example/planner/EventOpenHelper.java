@@ -1,4 +1,4 @@
-package com.example.sprint.sqlitefuns2;
+package com.example.planner;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,41 +6,38 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.planner.Assignment;
-import com.example.planner.Event;
-
 import java.util.ArrayList;
 
 public class EventOpenHelper extends SQLiteOpenHelper {
-    static final String TAG = "SQLiteFunTag";
+    static final String TAG = "EventOpenHelperTag";
 
     // fields
 
-    private static final String DATABASE_NAME = "plannerDatabase";
-    private static final int DATABASE_VERSION = 1;
+    static final String DATABASE_NAME = "plannerDatabase";
+    static final int DATABASE_VERSION = 1;
 
-    private static final String EVENTS_TABLE = "events";
-    private static final String ASSIGNMENTS_TABLE = "assignments";
-    private static final String COURSES_TABLE = "courses";
+    static final String MEETINGS_TABLE = "meetings";
+    static final String ASSIGNMENTS_TABLE = "assignments";
+    static final String COURSES_TABLE = "courses";
 
-    private static final String ID = "_id"; // _id is for use with adapters later
+    static final String ID = "_id"; // _id is for use with adapters later
 
-    private static final String NAME = "name";
-    private static final String ON_MONDAY = "on_monday";
-    private static final String ON_TUESDAY = "on_tuesday";
-    private static final String ON_WEDNESDAY = "on_wednesday";
-    private static final String ON_THURDAY = "on_thursday";
-    private static final String ON_FRIDAY = "on_friday";
-    private static final String START_TIME = "start_time";
-    private static final String STOP_TIME = "end_time";
+    static final String NAME = "name";
+    static final String ON_MONDAY = "on_monday";
+    static final String ON_TUESDAY = "on_tuesday";
+    static final String ON_WEDNESDAY = "on_wednesday";
+    static final String ON_THURSDAY = "on_thursday";
+    static final String ON_FRIDAY = "on_friday";
+    static final String START_TIME = "start_time";
+    static final String END_TIME = "end_time";
 
-    private static final String TITLE = "title";
-    private static final String DUE_DATE = "due_date";
-    private static final String DATE_TIME = "date_time";
-    private static final String COURSE = "course";
-    private static final String PRIORITY = "priority";
-    private static final String IS_DONE = "id_done";
-    private static final String NOTES = "notes";
+    static final String TITLE = "title";
+    static final String DUE_DATE = "due_date";
+    static final String DATE_TIME = "date_time";
+    static final String COURSE = "course";
+    static final String PRIORITY = "priority";
+    static final String IS_DONE = "id_done";
+    static final String NOTES = "notes";
 
     // constructors
 
@@ -54,7 +51,36 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sqlCreate = "CREATE TABLE " + COURSES_TABLE +
                 "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                NAME + " "
+                NAME + " VARCHAR(20), " +
+                ON_MONDAY + " BOOLEAN, " +
+                ON_TUESDAY + " BOOLEAN, " +
+                ON_WEDNESDAY + " BOOLEAN, " +
+                ON_THURSDAY + " BOOLEAN, " +
+                ON_FRIDAY + " BOOLEAN, " +
+                START_TIME + " DATETIME, " +
+                END_TIME + " DATETIME)";
+        Log.d(TAG, "onCreate: " + sqlCreate);
+        sqLiteDatabase.execSQL(sqlCreate);
+
+        sqlCreate = "CREATE TABLE " + ASSIGNMENTS_TABLE +
+                "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                TITLE + " VARCHAR(100), " +
+                DUE_DATE + " DATETIME, " +
+                COURSE + " VARCHAR(50), " +
+                PRIORITY + " INT UNSIGNED, " +
+                IS_DONE + " BOOLEAN, " +
+                NOTES + " VARCHAR(255), " +
+                "FOREIGN KEY (" + COURSE + ") REFERENCES " + COURSES_TABLE + " (" + NAME + "))";
+        Log.d(TAG, "onCreate: " + sqlCreate);
+        sqLiteDatabase.execSQL(sqlCreate);
+
+        sqlCreate = "CREATE TABLE " + MEETINGS_TABLE +
+                "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                TITLE + " VARCHAR(50), " +
+                DATE_TIME + " DATETIME, " +
+                COURSE + " VARCHAR(50), " +
+                PRIORITY + " INT UNSIGNED, " +
+                NOTES + " VARCHAR(255))";
         Log.d(TAG, "onCreate: " + sqlCreate);
         sqLiteDatabase.execSQL(sqlCreate);
     }
@@ -64,76 +90,43 @@ public class EventOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertEvent(Event event) {
+    public void insertCourse(Course course) {
+        String sqlInsert = "INSERT INTO " + COURSES_TABLE + " VALUES(null, '" +
+                course.getName() + "', " +
+                course.getOnMonday() + ", " +
+                course.getOnTuesday() + ", " +
+                course.getOnWednesday() + ", " +
+                course.getOnThursday() + ", " +
+                course.getOnFriday() + ", '" +
+                course.getStartTime() + "', '" +
+                course.getEndTime() + "')";
+        Log.d(TAG, "insertCourse: " + sqlInsert);
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(sqlInsert);
+        db.close();
+    }
+
+    public void insertMeeting(Event event) {
         String sqlInsert = "";
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlInsert);
-        db.close(); // good practice to close database open for writing
+        db.close();
     }
 
     public void insertAssignment(Assignment assignment) {
         String sqlInsert = "";
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlInsert);
-        db.close(); // good practice to close database open for writing
+        db.close();
     }
 
-    public Cursor getSelectAllContactsCursor() {
-        // cursor used to navigate through results from a query
-        // think of the cursor like a file cursor
-        // SELECT * FROM tableContacts
-        String sqlSelect = "SELECT * FROM " + TABLE_CONTACTS;
-        // * means all columns
-        Log.d(TAG, "getSelectAllContactsCursor: " + sqlSelect);
+    public Cursor getSelectAllEventsCursor() {
+        String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " UNION SELECT " +
+                ID + ", " + TITLE + ", " + DUE_DATE + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE;
+        Log.d(TAG, "getSelectAllEventsCursor: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
-        // use db.rawQuery() because its returs a Cursor
         Cursor cursor = db.rawQuery(sqlSelect, null);
-        // don't close the database, the cursor needs it open
 
         return cursor;
     }
-
-    // for debug purposes only!!
-    // for PA7 use SimpleCursorAdapter to wire up the database to the listview
-    public List<Contact> getSelectAllContactsList() {
-        List<Contact> contactList = new ArrayList<>();
-
-        // goal: walk through each record using a cursor
-        // create a Contact and add it to the list
-        // the cursor doesn't start at the first record
-        // because there might be not be a first record
-        Cursor cursor = getSelectAllContactsCursor();
-        while (cursor.moveToNext()) { // returns false when there is no next record
-            int id = cursor.getInt(0);
-            String name = cursor.getString(1);
-            String phoneNumber = cursor.getString(2);
-            int imageResource = cursor.getInt(3);
-            Contact contact = new Contact(id, name, phoneNumber, imageResource);
-            contactList.add(contact);
-        }
-
-        return contactList;
-    }
-
-    public void updateContactById(int id, Contact newContact) {
-        // UPDATE tableContacts SET name='SPIKE', phoneNumber='208-208-2082' WHERE _id=1
-        String sqlUpdate = "UPDATE " + TABLE_CONTACTS + " SET " +
-                NAME + "='" + newContact.getName() + "', " +
-                PHONE_NUMBER  + "='" + newContact.getPhoneNumber() + "' WHERE " +
-                ID + "=" + id;
-        Log.d(TAG, "updateContactById: " + sqlUpdate);
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(sqlUpdate);
-        db.close();
-    }
-
-    public void deleteAllContacts() {
-        // DELETE FROM tableContacts
-        String sqlDelete = "DELETE FROM " + TABLE_CONTACTS;
-        Log.d(TAG, "deleteAllContacts: " + sqlDelete);
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(sqlDelete);
-        db.close();
-    }
-
 }
