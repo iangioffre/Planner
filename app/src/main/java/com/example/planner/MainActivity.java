@@ -2,6 +2,7 @@ package com.example.planner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // open the edit activity
+//                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+//                intent.putExtra("id", id);
+//                startActivity(intent);
             }
         });
 
@@ -50,5 +54,12 @@ public class MainActivity extends AppCompatActivity {
         );
 
         listView.setAdapter(cursorAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // update the listview with the db
     }
 }

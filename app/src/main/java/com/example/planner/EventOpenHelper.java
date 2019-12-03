@@ -6,8 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.ArrayList;
-
 public class EventOpenHelper extends SQLiteOpenHelper {
     static final String TAG = "EventOpenHelperTag";
 
@@ -36,7 +34,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     static final String DATE_TIME = "date_time";
     static final String COURSE = "course";
     static final String PRIORITY = "priority";
-    static final String IS_DONE = "id_done";
+    static final String IS_DONE = "is_done";
     static final String NOTES = "notes";
 
     // constructors
