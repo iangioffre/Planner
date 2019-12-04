@@ -48,17 +48,17 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final String title = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
 
-//                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
-//                alertBuilder.setTitle("Item Clicked")
-//                        .setMessage("Are you sure you want to delete this item?")
-//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                openHelper.deleteEventByTitle(title);
-//                            }
-//                        })
-//                        .setNegativeButton("No", null);
-//                alertBuilder.show();
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertBuilder.setTitle("Item Clicked")
+                        .setMessage("Are you sure you want to delete this item?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                openHelper.deleteEventByTitle(title);
+                            }
+                        })
+                        .setNegativeButton("No", null);
+                alertBuilder.show();
 
                 return true;
             }
