@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        sortListByDate();
+        //sortListByDate();
     }
 
     private void sortListByDate() {
@@ -188,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.addMenuItem:
-//                Intent intent = new Intent(MainActivity.this, EditActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.classListMenuItem:
                 // show class list
