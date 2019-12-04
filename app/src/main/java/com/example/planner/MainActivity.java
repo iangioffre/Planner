@@ -55,15 +55,13 @@ public class MainActivity extends AppCompatActivity {
         event.setTitle("TITLE2");
         event.setDateTime("2019-12-22 12:00:00");
         openHelper.insertMeeting(event);
-
-        sortListByDate();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        // update the listview with the db
+        sortListByDate();
     }
 
     private void sortListByDate() {
