@@ -30,7 +30,6 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     static final String END_TIME = "end_time";
 
     static final String TITLE = "title";
-    static final String DUE_DATE = "due_date";
     static final String DATE_TIME = "date_time";
     static final String COURSE = "course";
     static final String PRIORITY = "priority";
@@ -63,7 +62,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
         sqlCreate = "CREATE TABLE " + ASSIGNMENTS_TABLE +
                 "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TITLE + " VARCHAR(100), " +
-                DUE_DATE + " DATETIME, " +
+                DATE_TIME + " DATETIME, " +
                 COURSE + " VARCHAR(50), " +
                 PRIORITY + " INT UNSIGNED, " +
                 IS_DONE + " BOOLEAN, " +
@@ -144,8 +143,30 @@ public class EventOpenHelper extends SQLiteOpenHelper {
 
     public Cursor getSelectAllEventsByDateCursor() {
         String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " UNION SELECT " +
-                ID + ", " + TITLE + ", " + DUE_DATE + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE +
+                ID + ", " + TITLE + ", " + DATE_TIME + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE +
                 " WHERE strftime('%Y-%m-%d %H-%M-%S','now') ORDER BY " + DATE_TIME;
+        Log.d(TAG, "getSelectAllEventsCursor: " + sqlSelect);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect, null);
+
+        return cursor;
+    }
+
+    public Cursor getSelectAllEventsByClassCursor() {
+        String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " UNION SELECT " +
+                ID + ", " + TITLE + ", " + DATE_TIME + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE +
+                " WHERE strftime('%Y-%m-%d %H-%M-%S','now') ORDER BY " + COURSE;
+        Log.d(TAG, "getSelectAllEventsCursor: " + sqlSelect);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect, null);
+
+        return cursor;
+    }
+
+    public Cursor getSelectAllEventsByImportanceCursor() {
+        String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " UNION SELECT " +
+                ID + ", " + TITLE + ", " + DATE_TIME + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE +
+                " WHERE strftime('%Y-%m-%d %H-%M-%S','now') ORDER BY " + PRIORITY;
         Log.d(TAG, "getSelectAllEventsCursor: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect, null);
