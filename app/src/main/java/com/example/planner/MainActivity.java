@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sortListByClass() {
-        Cursor cursor = openHelper.getSelectAllEventsByDateCursor();
+        Cursor cursor = openHelper.getSelectAllEventsByClassCursor();
         SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
                 android.R.layout.simple_list_item_2,
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sortListByImportance() {
-        Cursor cursor = openHelper.getSelectAllEventsByDateCursor();
+        Cursor cursor = openHelper.getSelectAllEventsByImportanceCursor();
         SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
                 android.R.layout.simple_list_item_2,
