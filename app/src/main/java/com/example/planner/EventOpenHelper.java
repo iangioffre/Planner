@@ -133,11 +133,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deleteMeeting(Event event) {
-
-    }
-
-    public void deleteAssignment(Assignment assignment) {
+    public void deleteEvent(Event event) {
 
     }
 

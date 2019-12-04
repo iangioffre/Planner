@@ -1,9 +1,11 @@
 package com.example.planner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -43,7 +45,19 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // allow a deletion using AlertDialog
+                //Event event = ;
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertBuilder.setTitle("Item Clicked")
+                        .setMessage("Are you sure you want to delete this item?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //openHelper.deleteEvent();
+                            }
+                        })
+                        .setNegativeButton("No", null);
+                alertBuilder.show();
 
                 return true;
             }
@@ -176,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
 //                Intent intent = new Intent(MainActivity.this, EditActivity.class);
 //                startActivity(intent);
                 return true;
-            // task: finish the two other cases, show toast messages
             case R.id.classListMenuItem:
                 // show class list
                 return true;
