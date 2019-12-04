@@ -133,8 +133,8 @@ public class EventOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deleteEvent(Event event) {
-
+    public void deleteEventByTitle(String title) {
+        // delete both from meetings and assignments to ensure the event has been deleted
     }
 
     public Cursor getSelectAllEventsByDateCursor() {

@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,19 +46,19 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //Event event = ;
+                final String title = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
 
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertBuilder.setTitle("Item Clicked")
-                        .setMessage("Are you sure you want to delete this item?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //openHelper.deleteEvent();
-                            }
-                        })
-                        .setNegativeButton("No", null);
-                alertBuilder.show();
+//                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
+//                alertBuilder.setTitle("Item Clicked")
+//                        .setMessage("Are you sure you want to delete this item?")
+//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                openHelper.deleteEventByTitle(title);
+//                            }
+//                        })
+//                        .setNegativeButton("No", null);
+//                alertBuilder.show();
 
                 return true;
             }
