@@ -197,7 +197,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(meetingIntent);
                 return true;
             case R.id.addAssignmentMenuItem:
-                // go to add assignment activity
+                Intent assignmentIntent = new Intent(MainActivity.this, AssignmentActivity.class);
+                startActivity(assignmentIntent);
+                return true;
             case R.id.addClassMenuItem:
                 // go to add class activity
                 return true;
