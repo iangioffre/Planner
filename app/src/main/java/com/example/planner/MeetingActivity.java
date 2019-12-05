@@ -19,13 +19,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import static com.example.planner.EventOpenHelper.COURSE;
 import static com.example.planner.EventOpenHelper.NOTES;
+import static com.example.planner.EventOpenHelper.PRIORITY;
 import static com.example.planner.EventOpenHelper.TITLE;
 
 public class MeetingActivity extends AppCompatActivity {
@@ -80,7 +83,20 @@ public class MeetingActivity extends AppCompatActivity {
             cursor1.moveToNext();
             titleEditText.setText(cursor1.getString(cursor1.getColumnIndex(TITLE)));
             descriptionEditText.setText(cursor1.getString(cursor1.getColumnIndex(NOTES)));
+            prioritySpinner.setSelection(adapter.getPosition(cursor1.getString(cursor1.getColumnIndex(PRIORITY))));
+            //datePicker.set
+
         }
+    }
+
+    public int setCourseSpinnerSelection(String st, CursorAdapter ca) {
+        int  index = 0;
+        for (int i = 1; i < ca.getCount() - 2; i++) {
+            if (ca.getItem(i) == st) {
+                index = i;
+            }
+        }
+        return index;
     }
 
     @Override
@@ -110,10 +126,14 @@ public class MeetingActivity extends AppCompatActivity {
             // update existing thing
         } else {
             EventOpenHelper eventOpenHelper = new EventOpenHelper(this);
+
+            int hour = timePicker.getCurrentHour();
+            int minute = timePicker.getCurrentMinute();
+
+
             Event event = new Event();
             event.setTitle(titleEditText.getText().toString());
-            Log.d("SAVE MEETING: ", "saveMeeting: " + datePicker.getYear() + "-" + datePicker.getMonth() + "-" +  datePicker.getDayOfMonth());
-            event.setDateTime(datePicker.getYear() + "-" + datePicker.getMonth() + "-" +  datePicker.getDayOfMonth());
+            event.setDateTime(datePicker.getYear() + "-" + datePicker.getMonth() + "-" +  datePicker.getDayOfMonth() + " " + String.format("%02d", hour) + ":" + String.format("%02d", minute));
             event.setCourse(courseSpinner.getSelectedItem().toString());
             event.setPriority(Integer.parseInt(prioritySpinner.getSelectedItem().toString()));
             event.setNotes(descriptionEditText.getText().toString());

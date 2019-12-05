@@ -82,9 +82,8 @@ public class EventOpenHelper extends SQLiteOpenHelper {
         Log.d(TAG, "onCreate: " + sqlCreate);
         sqLiteDatabase.execSQL(sqlCreate);
 
-        Course course = new Course();
-        course.setId(0);
-        course.setName("None");
+        Course course = new Course(0, "Classes", 0, 0, 0, 0, 0, "0000-00-00 00:00:00", "0000-00-00 00:00:00");
+
         String sqlInsert = "INSERT INTO " + COURSES_TABLE + " VALUES(null, '" +
                 course.getName() + "', " +
                 course.getOnMonday() + ", " +
