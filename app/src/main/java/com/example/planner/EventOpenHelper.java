@@ -80,6 +80,22 @@ public class EventOpenHelper extends SQLiteOpenHelper {
                 NOTES + " VARCHAR(255))";
         Log.d(TAG, "onCreate: " + sqlCreate);
         sqLiteDatabase.execSQL(sqlCreate);
+
+        Course course = new Course();
+        course.setId(0);
+        course.setName("None");
+        String sqlInsert = "INSERT INTO " + COURSES_TABLE + " VALUES(null, '" +
+                course.getName() + "', " +
+                course.getOnMonday() + ", " +
+                course.getOnTuesday() + ", " +
+                course.getOnWednesday() + ", " +
+                course.getOnThursday() + ", " +
+                course.getOnFriday() + ", '" +
+                course.getStartTime() + "', '" +
+                course.getEndTime() + "')";
+        Log.d(TAG, "insertCourse: " + sqlInsert);
+
+        sqLiteDatabase.execSQL(sqlInsert);
     }
 
     @Override
@@ -166,6 +182,15 @@ public class EventOpenHelper extends SQLiteOpenHelper {
         Log.d(TAG, "getSelectAllEventsCursor: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect, null);
+
+        return cursor;
+    }
+
+    public Cursor getAllCourses() {
+        String sqlSelect = "SELECT " + ID + ", " + NAME + " FROM " + COURSES_TABLE;
+        Log.d(TAG, "getAllCourses: " + sqlSelect);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
 
         return cursor;
     }
