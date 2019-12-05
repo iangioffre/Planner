@@ -6,63 +6,72 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".EditActivity">
+    tools:context=".MeetingActivity">
 
     <EditText
         android:id="@+id/title_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:hint="Title"/>
 
-    <LinearLayout
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:calendarViewShown="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="0">
+        android:layout_gravity="center"
+        android:datePickerMode="spinner" />
 
-        <Button
-            android:id="@+id/date_picker_button"
-            android:layout_width="wrap_content"
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Date"
-            android:onClick="showDatePickerDialog"/>
+            android:timePickerMode="spinner"
+            android:layout_gravity="center"/>
 
-        <Button
-            android:id="@+id/time_picker_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Time"
-            android:onClick="showTimePickerDialog"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="0">
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/priority_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Priority: "/>
 
         <Spinner
             android:id="@+id/priority_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/course_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:text="Class: "/>
 
         <Spinner
             android:id="@+id/course_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
+
+
     <EditText
-        android:layout_width="wrap_content"
+        android:id="@+id/description_edit_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:hint="Description"
         android:gravity="top|start"
         />

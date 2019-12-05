@@ -3,9 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/addMenuItem"
-        android:title="Add Item"
-        android:icon="@android:drawable/ic_menu_add"
+        android:id="@+id/addMeetingMenuItem"
+        android:title="Add Meeting"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/addAssignmentMenuItem"
+        android:title="Add Assignment"
         app:showAsAction="ifRoom"
         />
 
