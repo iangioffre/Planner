@@ -192,7 +192,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     public Cursor getSelectAllEventsByImportanceCursor() {
         String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " UNION SELECT " +
                 ID + ", " + TITLE + ", " + DATE_TIME + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE +
-                " WHERE strftime('%Y-%m-%d %H-%M-%S','now') ORDER BY " + PRIORITY + " DESC";
+                " WHERE strftime('%Y-%m-%d %H-%M-%S','now') ORDER BY " + PRIORITY;
         Log.d(TAG, "getSelectAllEventsCursor: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect, null);
@@ -213,7 +213,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
         String sqlSelect = "SELECT a1." + TITLE + ", a1." + COURSE + ", a1." + PRIORITY + ", c." + START_TIME +
                 " FROM " + COURSES_TABLE + " c JOIN " + ASSIGNMENTS_TABLE + " a1 ON (c." + NAME + " = a1." + COURSE + ")" +
                 " GROUP BY a1." + PRIORITY + " HAVING a1." + PRIORITY +
-                " = (SELECT MAX(a2." + PRIORITY + ") FROM " + ASSIGNMENTS_TABLE + " a2" +
+                " = (SELECT MIN(a2." + PRIORITY + ") FROM " + ASSIGNMENTS_TABLE + " a2" +
                 " WHERE NOT a2." + IS_DONE + ")";
         Log.d(TAG, "getSelectHighestPriorityAssignmentCursor: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
