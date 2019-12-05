@@ -10,36 +10,43 @@
 package com.example.planner;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.TimePicker;
 
-public class EditActivity extends AppCompatActivity {
+public class MeetingActivity extends AppCompatActivity {
+
+    TimePicker timePicker;
+    DatePicker datePicker;
+    EditText titleEditText;
+    Spinner prioritySpinner;
+    Spinner courseSpinner;
+    EditText descriptionEditText;
+    long intentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+        setContentView(R.layout.activity_meeting);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        timePicker = (TimePicker) findViewById(R.id.timePicker);
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
+        titleEditText = (EditText) findViewById(R.id.title_edit_text);
+        descriptionEditText = (EditText) findViewById(R.id.description_edit_text);
+        prioritySpinner = (Spinner) findViewById(R.id.priority_spinner);
+        courseSpinner = (Spinner) findViewById(R.id.course_spinner);
 
         Spinner prioritySpinner = (Spinner) findViewById(R.id.priority_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.priority_array, android.R.layout.simple_spinner_item);
@@ -62,9 +69,7 @@ public class EditActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            EditText title = (EditText) findViewById(R.id.title_edit_text);
-
-
+            intentID = intent.getLongExtra("id", 0);
         }
     }
 
@@ -82,24 +87,17 @@ public class EditActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.saveMenuItem:
-                saveCourse();
+                saveMeeting();
                 return true;
         }
         return true;
     }
 
-    public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-    }
 
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
+    public void saveMeeting () {
+        // if intent is not null -> update the assignment/ meeting
 
-    public void saveCourse () {
-
+        // if the intent is null -> make a new assignment/ meeting
     }
 
 }

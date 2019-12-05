@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
             }
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 openHelper.deleteEventByTitle(title);
+                                sortListByDate();
                             }
                         })
                         .setNegativeButton("No", null);
@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
         event.setTitle("TITLE2");
         event.setDateTime("2019-12-22 12:00:00");
         openHelper.insertMeeting(event);
+
+        Assignment assignment = new Assignment();
+        assignment.setTitle("My Assignment");
+        assignment.setCourse("None");
+        assignment.setPriority(3);
+        openHelper.insertAssignment(assignment);
     }
 
     @Override
@@ -187,9 +193,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.addMenuItem:
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
-                startActivity(intent);
+            case R.id.addMeetingMenuItem:
+                Intent meetingIntent = new Intent(MainActivity.this, MeetingActivity.class);
+                startActivity(meetingIntent);
+                return true;
+            case R.id.addAssignmentMenuItem:
+                Intent assignmentIntent = new Intent(MainActivity.this, AssignmentActivity.class);
+                startActivity(assignmentIntent);
                 return true;
             case R.id.addClassMenuItem:
                 Intent intent2 = new Intent(MainActivity.this, AddClassActivity.class);
@@ -206,6 +216,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.sortByImportanceMenuItem:
                 sortListByImportance();
+                return true;
+            case R.id.showHighestPriorityMenuItem:
+                Intent intent1 = new Intent(MainActivity.this, HighestPriorityActivity.class);
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
