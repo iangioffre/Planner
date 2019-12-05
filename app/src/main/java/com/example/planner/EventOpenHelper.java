@@ -250,13 +250,30 @@ public class EventOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlUpdate);
         db.close();
+    }
 
+    public Cursor getAssignment(long id) {
+        String sqlSelect = " SELECT * FROM " + ASSIGNMENTS_TABLE + " WHERE " + ID + " = " + id;
+        Log.d(TAG, "getAssignment: " + sqlSelect);
 
-//        "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                TITLE + " VARCHAR(50), " +
-//                DATE_TIME + " DATETIME, " +
-//                COURSE + " VARCHAR(50), " +
-//                PRIORITY + " INT UNSIGNED, " +
-//                NOTES + " VARCHAR(255), " +
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+
+        return cursor;
+    }
+
+    public void updateAssignment(Assignment assignment) {
+        String sqlUpdate = "UPDATE " + ASSIGNMENTS_TABLE + " SET " +
+                TITLE + " = '" + assignment.getTitle() + "', " +
+                DATE_TIME + " = '" + assignment.getDateTime() + "', " +
+                COURSE + " = '" + assignment.getCourse() + "', " +
+                PRIORITY + " = '" + assignment.getPriority() + "', " +
+                IS_DONE + " = '" + assignment.getIsDone() + "', " +
+                NOTES + " = '" + assignment.getNotes() + "' WHERE " +
+                ID + " = '" + assignment.getId() + "'" ;
+        Log.d(TAG, "updateAssignment: " + sqlUpdate);
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(sqlUpdate);
+        db.close();
     }
 }

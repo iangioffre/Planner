@@ -57,12 +57,10 @@ public class MeetingActivity extends AppCompatActivity {
         prioritySpinner = (Spinner) findViewById(R.id.priority_spinner);
         courseSpinner = (Spinner) findViewById(R.id.course_spinner);
 
-        Spinner prioritySpinner = (Spinner) findViewById(R.id.priority_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.priority_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         prioritySpinner.setAdapter(adapter);
 
-        Spinner courseSpinner = (Spinner) findViewById(R.id.course_spinner);
         final EventOpenHelper eoh = new EventOpenHelper(this);
         Cursor cursor = eoh.getAllCourses();
         SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(
@@ -82,6 +80,7 @@ public class MeetingActivity extends AppCompatActivity {
             EventOpenHelper openHelper = new EventOpenHelper(this);
             Cursor cursor1 = openHelper.getMeeting(intentID);
             cursor1.moveToNext();
+
             titleEditText.setText(cursor1.getString(cursor1.getColumnIndex(TITLE)));
             descriptionEditText.setText(cursor1.getString(cursor1.getColumnIndex(NOTES)));
             prioritySpinner.setSelection(adapter.getPosition(cursor1.getString(cursor1.getColumnIndex(PRIORITY))));
