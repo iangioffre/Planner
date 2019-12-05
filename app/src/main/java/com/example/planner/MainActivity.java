@@ -206,7 +206,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent2);
                 return true;
             case R.id.classListMenuItem:
-                // show class list
+                Intent intent3 = new Intent(MainActivity.this, ClassListActivity.class);
+                startActivity(intent3);
                 return true;
             case R.id.sortByClassMenuItem:
                 sortListByClass();

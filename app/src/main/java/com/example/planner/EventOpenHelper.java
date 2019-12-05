@@ -199,7 +199,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllCourses() {
-        String sqlSelect = "SELECT " + ID + ", " + NAME + " FROM " + COURSES_TABLE;
+        String sqlSelect = "SELECT " + ID + ", " + NAME + ", " + START_TIME + " FROM " + COURSES_TABLE;
         Log.d(TAG, "getAllCourses: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect,null);
