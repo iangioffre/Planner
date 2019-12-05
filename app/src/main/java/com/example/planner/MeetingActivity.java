@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +25,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import static com.example.planner.EventOpenHelper.NOTES;
+import static com.example.planner.EventOpenHelper.TITLE;
+
 public class MeetingActivity extends AppCompatActivity {
 
     TimePicker timePicker;
@@ -33,6 +37,7 @@ public class MeetingActivity extends AppCompatActivity {
     Spinner courseSpinner;
     EditText descriptionEditText;
     long intentID;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +72,14 @@ public class MeetingActivity extends AppCompatActivity {
         cursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courseSpinner.setAdapter(cursorAdapter);
 
-        Intent intent = getIntent();
-        if (intent != null) {
+        intent = getIntent();
+        if (intent.getExtras() != null) {
             intentID = intent.getLongExtra("id", 0);
+            EventOpenHelper openHelper = new EventOpenHelper(this);
+            Cursor cursor1 = openHelper.getMeeting(intentID);
+            cursor1.moveToNext();
+            titleEditText.setText(cursor1.getString(cursor1.getColumnIndex(TITLE)));
+            descriptionEditText.setText(cursor1.getString(cursor1.getColumnIndex(NOTES)));
         }
     }
 
@@ -88,6 +98,7 @@ public class MeetingActivity extends AppCompatActivity {
                 return true;
             case R.id.saveMenuItem:
                 saveMeeting();
+                finish();
                 return true;
         }
         return true;
@@ -95,9 +106,19 @@ public class MeetingActivity extends AppCompatActivity {
 
 
     public void saveMeeting () {
-        // if intent is not null -> update the assignment/ meeting
-
-        // if the intent is null -> make a new assignment/ meeting
+        if (intent.getExtras() != null) {
+            // update existing thing
+        } else {
+            EventOpenHelper eventOpenHelper = new EventOpenHelper(this);
+            Event event = new Event();
+            event.setTitle(titleEditText.getText().toString());
+            Log.d("SAVE MEETING: ", "saveMeeting: " + datePicker.getYear() + "-" + datePicker.getMonth() + "-" +  datePicker.getDayOfMonth());
+            event.setDateTime(datePicker.getYear() + "-" + datePicker.getMonth() + "-" +  datePicker.getDayOfMonth());
+            event.setCourse(courseSpinner.getSelectedItem().toString());
+            event.setPriority(Integer.parseInt(prioritySpinner.getSelectedItem().toString()));
+            event.setNotes(descriptionEditText.getText().toString());
+            eventOpenHelper.insertMeeting(event);
+        }
     }
 
 }

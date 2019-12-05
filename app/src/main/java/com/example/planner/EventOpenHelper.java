@@ -218,4 +218,24 @@ public class EventOpenHelper extends SQLiteOpenHelper {
 
         return cursor;
     }
+
+    public boolean isMeeting (String title) {
+        String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " WHERE " + TITLE + " = '" + title + "'";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+        if (cursor.getCount() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Cursor getMeeting(long id) {
+        String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " WHERE " + ID + " = " + id;
+        Log.d(TAG, "getMeeting: " + sqlSelect);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+
+        return cursor;
+    }
 }
