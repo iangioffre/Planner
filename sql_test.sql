@@ -34,6 +34,7 @@ CREATE TABLE assignments (
 
 CREATE TABLE meetings (
 	title VARCHAR(50),
+	course VARCHAR(50),
 	date_time DATETIME,
 	priority INT UNSIGNED,
 	notes VARCHAR(255),
@@ -55,9 +56,9 @@ INSERT INTO assignments VALUES
 	("Project Review", '2019-11-19 1:00:00', "Databases", 6, FALSE, "");
 	
 INSERT INTO meetings VALUES
-	("Senior Design Meeting", '2019-11-19 10:00:00', 9, "Finish app screens before meeting"),
-	("Faculty Senior Design Meeting", '2019-11-14 8:30:00', 10, "Ask about due date for project"),
-	("Meet friend for coffee", '2019-11-19 1:00:00', 5, "At that Starbucks");
+	("Senior Design Meeting", "Software Engineering", '2019-11-19 10:00:00', 9, "Finish app screens before meeting"),
+	("Faculty Senior Design Meeting", "Software Engineering", '2019-11-14 8:30:00', 10, "Ask about due date for project"),
+	("Meet friend for coffee", "Choir", '2019-11-19 1:00:00', 5, "At that Starbucks");
 
 SELECT * FROM course;
 SELECT 1;
@@ -79,7 +80,7 @@ SELECT 1;
 SELECT m.title, m.date_time
 FROM meetings m
 UNION
-SELECT a.title, a.due_date
+SELECT a.title, a.date_time
 FROM assignments a
 WHERE NOT is_done
 ORDER BY a.date_time DESC;
@@ -110,3 +111,42 @@ SELECT 1;
 SELECT * 
 FROM assignments a
 WHERE a.course = 'Databases' AND a.priority > 7;
+
+/* JOIN
+/*Three way JOIN to get all assignments and meetings for each course*/
+SELECT 1;
+SELECT a.title, m.title, c.name
+FROM assignments a JOIN course c ON (a.course = c.name)
+	JOIN meetings m ON (c.name = m.course)
+;
+
+/* Aggregate, group by
+/* Return the number of assignments for each course*/
+SELECT 1;
+SELECT COUNT(a.title), c.name
+FROM assignments a JOIN course c ON (a.course = c.name)
+GROUP BY c.name
+;
+
+/* Aggregate, where and group by
+/* Return the number of assignments for each course where the assignment is incomplete*/
+SELECT 1;
+SELECT COUNT(a.title), c.name
+FROM assignments a JOIN course c ON (a.course = c.name)
+WHERE a.is_done = FALSE
+GROUP BY c.name
+;
+
+/* return the highest priority assignment title, course and priority */
+SELECT 1;
+SELECT a1.title, a1.course, a1.priority
+FROM course c JOIN assignments a1 ON (c.name = a1.course)
+GROUP BY a1.priority
+HAVING a1.priority > (SELECT MAX(a2.priority)
+				FROM assignments a2
+				WHERE a2.is_done = FALSE
+				AND a1.course = a2.course
+				GROUP BY a2.title);
+
+SELECT 1;
+
