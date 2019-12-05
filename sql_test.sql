@@ -23,7 +23,7 @@ CREATE TABLE course (
 
 CREATE TABLE assignments (
 	title VARCHAR(100),
-	date_time DATETIME,
+	due_date DATETIME,
 	course VARCHAR(50),
 	priority INT UNSIGNED,
 	is_done BOOLEAN, 
@@ -37,8 +37,7 @@ CREATE TABLE meetings (
 	date_time DATETIME,
 	priority INT UNSIGNED,
 	notes VARCHAR(255),
-	PRIMARY KEY (title, date_time),
-	FOREIGN KEY (course) REFERENCES course (name)
+	PRIMARY KEY (title, date_time)
 );
 
 INSERT INTO course VALUES
@@ -82,7 +81,7 @@ UNION
 SELECT a.title, a.due_date
 FROM assignments a
 WHERE NOT is_done
-ORDER BY a.date_time DESC;
+ORDER BY a.due_date DESC;
 
 SELECT 1;
 /* The user will be able to delete events and assignments */
@@ -102,8 +101,8 @@ SELECT 1;
 /* The user will be able to due dates across a span of time */
 SELECT * 
 FROM assignments a 
-WHERE a.date_time > '2019-11-13 23:59:59'
-	AND a.date_time <= '2019-11-20 23:59:59';
+WHERE a.due_date > '2019-11-13 23:59:59' 
+	AND a.due_date <= '2019-11-20 23:59:59';
 
 SELECT 1;
 /* The user will able to select all assignments for a particular class and then view sub selections of that data (either by type, or by week) */
