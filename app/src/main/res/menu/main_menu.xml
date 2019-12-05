@@ -10,10 +10,16 @@
         />
 
     <item
-    android:id="@+id/classListMenuItem"
-    android:title="Class List"
-    app:showAsAction="never"
-    />
+        android:id="@+id/addClassMenuItem"
+        android:title="Add Class"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/classListMenuItem"
+        android:title="Class List"
+        app:showAsAction="never"
+        />
 
     <item
         android:id="@+id/sortByDateMenuItem"

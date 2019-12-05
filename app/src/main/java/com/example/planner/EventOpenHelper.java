@@ -77,7 +77,8 @@ public class EventOpenHelper extends SQLiteOpenHelper {
                 DATE_TIME + " DATETIME, " +
                 COURSE + " VARCHAR(50), " +
                 PRIORITY + " INT UNSIGNED, " +
-                NOTES + " VARCHAR(255))";
+                NOTES + " VARCHAR(255), " +
+                "FOREIGN KEY (" + COURSE + ") REFERENCES " + COURSES_TABLE + " (" + NAME + "))";
         Log.d(TAG, "onCreate: " + sqlCreate);
         sqLiteDatabase.execSQL(sqlCreate);
 
