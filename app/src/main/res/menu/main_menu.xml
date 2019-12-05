@@ -39,4 +39,10 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/showHighestPriorityMenuItem"
+        android:title="Show Highest Priority Assignment"
+        app:showAsAction="never"
+        />
+
 </menu>

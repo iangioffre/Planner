@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
         event.setTitle("TITLE2");
         event.setDateTime("2019-12-22 12:00:00");
         openHelper.insertMeeting(event);
+
+        Assignment assignment = new Assignment();
+        assignment.setTitle("My Assignment");
+        assignment.setCourse("None");
+        assignment.setPriority(3);
+        openHelper.insertAssignment(assignment);
     }
 
     @Override
@@ -205,6 +211,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.sortByImportanceMenuItem:
                 sortListByImportance();
+                return true;
+            case R.id.showHighestPriorityMenuItem:
+                Intent intent1 = new Intent(MainActivity.this, HighestPriorityActivity.class);
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -134,13 +134,13 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     }
 
     public void insertAssignment(Assignment assignment) {
-        String sqlInsert = "INSERT INTO " + MEETINGS_TABLE + " VALUES(null, '" +
+        String sqlInsert = "INSERT INTO " + ASSIGNMENTS_TABLE + " VALUES(null, '" +
                 assignment.getTitle() + "', '" +
                 assignment.getDateTime() + "', '" +
                 assignment.getCourse() + "', " +
                 assignment.getPriority() + ", " +
                 assignment.getIsDone() + ", '" +
-                assignment.getNotes() + "'')";
+                assignment.getNotes() + "')";
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlInsert);
         db.close();
@@ -190,6 +190,18 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     public Cursor getAllCourses() {
         String sqlSelect = "SELECT " + ID + ", " + NAME + " FROM " + COURSES_TABLE;
         Log.d(TAG, "getAllCourses: " + sqlSelect);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+
+        return cursor;
+    }
+
+    public Cursor getSelectHighestPriorityAssignmentCursor() {
+        String sqlSelect = "SELECT a1." + TITLE + ", a1." + COURSE + ", a1." + PRIORITY + ", c." + START_TIME +
+                " FROM " + COURSES_TABLE + " c JOIN " + ASSIGNMENTS_TABLE + " a1 ON (c." + NAME + " = a1." + COURSE + ")" +
+                " GROUP BY a1." + PRIORITY + " HAVING a1." + PRIORITY +
+                " = (SELECT MAX(a2." + PRIORITY + ") FROM " + ASSIGNMENTS_TABLE + " a2" +
+                " WHERE NOT a2." + IS_DONE + ")";
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect,null);
 
