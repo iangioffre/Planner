@@ -82,9 +82,8 @@ public class EventOpenHelper extends SQLiteOpenHelper {
         Log.d(TAG, "onCreate: " + sqlCreate);
         sqLiteDatabase.execSQL(sqlCreate);
 
-        Course course = new Course();
-        course.setId(0);
-        course.setName("None");
+        Course course = new Course(0, "Classes", 0, 0, 0, 0, 0, "0000-00-00 00:00:00", "0000-00-00 00:00:00");
+
         String sqlInsert = "INSERT INTO " + COURSES_TABLE + " VALUES(null, '" +
                 course.getName() + "', " +
                 course.getOnMonday() + ", " +
@@ -213,6 +212,26 @@ public class EventOpenHelper extends SQLiteOpenHelper {
                 " GROUP BY a1." + PRIORITY + " HAVING a1." + PRIORITY +
                 " = (SELECT MAX(a2." + PRIORITY + ") FROM " + ASSIGNMENTS_TABLE + " a2" +
                 " WHERE NOT a2." + IS_DONE + ")";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+
+        return cursor;
+    }
+
+    public boolean isMeeting (String title) {
+        String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " WHERE " + TITLE + " = '" + title + "'";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+        if (cursor.getCount() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Cursor getMeeting(long id) {
+        String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " WHERE " + ID + " = " + id;
+        Log.d(TAG, "getMeeting: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect,null);
 

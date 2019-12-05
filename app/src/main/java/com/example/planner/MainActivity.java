@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivityTag";
 
@@ -36,9 +38,17 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
-                intent.putExtra("id", id);
-                startActivity(intent);
+                TextView textView = view.findViewById(android.R.id.text1);
+                String title = textView.getText().toString();
+                if (openHelper.isMeeting(title)){
+                    Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, AssignmentActivity.class);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+                }
             }
         });
 
