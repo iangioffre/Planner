@@ -147,7 +147,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     }
 
     public void deleteCourse(Course course) {
-
+        
     }
 
     public void deleteEventByTitle(String title) {
