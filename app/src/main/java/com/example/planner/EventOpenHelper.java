@@ -147,11 +147,22 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     }
 
     public void deleteCourse(Course course) {
-        
+        String sqlDelete = "DELETE FROM " + COURSES_TABLE + " WHERE " + NAME + " = '" + course.getName() + "'";
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(sqlDelete);
+        db.close();
     }
 
     public void deleteEventByTitle(String title) {
-        // delete both from meetings and assignments to ensure the event has been deleted
+        String sqlDelete = "DELETE FROM " + MEETINGS_TABLE + " WHERE " + TITLE + " = '" + title + "'";
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(sqlDelete);
+        db.close();
+
+        sqlDelete = "DELETE FROM " + ASSIGNMENTS_TABLE + " WHERE " + TITLE + " = '" + title + "'";
+        db = getWritableDatabase();
+        db.execSQL(sqlDelete);
+        db.close();
     }
 
     public Cursor getSelectAllEventsByDateCursor() {
