@@ -192,7 +192,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     public Cursor getSelectAllEventsByImportanceCursor() {
         String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " UNION SELECT " +
                 ID + ", " + TITLE + ", " + DATE_TIME + ", " + COURSE + ", " + PRIORITY + ", " + NOTES + " FROM " + ASSIGNMENTS_TABLE +
-                " WHERE strftime('%Y-%m-%d %H-%M-%S','now') ORDER BY " + PRIORITY;
+                " WHERE strftime('%Y-%m-%d %H-%M-%S','now') ORDER BY " + PRIORITY + " DESC";
         Log.d(TAG, "getSelectAllEventsCursor: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect, null);
