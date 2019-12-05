@@ -32,6 +32,7 @@ public class MeetingActivity extends AppCompatActivity {
     Spinner prioritySpinner;
     Spinner courseSpinner;
     EditText descriptionEditText;
+    long intentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class MeetingActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-
+            intentID = intent.getLongExtra("id", 0);
         }
     }
 
