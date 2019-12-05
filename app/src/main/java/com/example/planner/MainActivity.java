@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
             }
@@ -193,10 +192,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.addMenuItem:
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
-                startActivity(intent);
+            case R.id.addMeetingMenuItem:
+                Intent meetingIntent = new Intent(MainActivity.this, MeetingActivity.class);
+                startActivity(meetingIntent);
                 return true;
+            case R.id.addAssignmentMenuItem:
+                // go to add assignment activity
             case R.id.addClassMenuItem:
                 // go to add class activity
                 return true;
