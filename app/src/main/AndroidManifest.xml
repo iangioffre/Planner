@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HighestPriorityActivity"></activity>
-        <activity android:name=".AssignmentActivity"></activity>
+        <activity android:name=".ClassListActivity"></activity>
+        <activity android:name=".HighestPriorityActivity" />
+        <activity android:name=".AssignmentActivity" />
         <activity android:name=".AddClassActivity" />
         <activity android:name=".MeetingActivity" />
         <activity android:name=".MainActivity">
