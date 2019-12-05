@@ -15,8 +15,12 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
+
+import static com.example.planner.EventOpenHelper.COURSE;
 import static com.example.planner.EventOpenHelper.DATE_TIME;
 import static com.example.planner.EventOpenHelper.IS_DONE;
+import static com.example.planner.EventOpenHelper.NAME;
 import static com.example.planner.EventOpenHelper.NOTES;
 import static com.example.planner.EventOpenHelper.PRIORITY;
 import static com.example.planner.EventOpenHelper.TITLE;
@@ -26,6 +30,7 @@ public class AssignmentActivity extends AppCompatActivity {
     DatePicker datePicker;
     EditText titleEditText;
     Spinner prioritySpinner;
+    ArrayList<String> courseList;
     Spinner courseSpinner;
     Spinner isDoneSpinner;
     EditText descriptionEditText;
@@ -46,6 +51,9 @@ public class AssignmentActivity extends AppCompatActivity {
         courseSpinner = (Spinner) findViewById(R.id.course_spinner);
         isDoneSpinner = (Spinner) findViewById(R.id.is_done_spinner);
 
+        EventOpenHelper openListHelper = new EventOpenHelper(this);
+        courseList = openListHelper.getCourseNameList();
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.priority_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         prioritySpinner.setAdapter(adapter);
@@ -54,18 +62,9 @@ public class AssignmentActivity extends AppCompatActivity {
         isDoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         isDoneSpinner.setAdapter(isDoneAdapter);
 
-        final EventOpenHelper eoh = new EventOpenHelper(this);
-        Cursor cursor = eoh.getAllCourses();
-        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                cursor,
-                new String[] {eoh.NAME},
-                new int[] {android.R.id.text1},
-                0
-        );
-        cursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        courseSpinner.setAdapter(cursorAdapter);
+        ArrayAdapter<String> courseNameAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, courseList);
+        courseNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        courseSpinner.setAdapter(courseNameAdapter);
 
         intent = getIntent();
         if (intent.getExtras() != null) {
@@ -77,6 +76,7 @@ public class AssignmentActivity extends AppCompatActivity {
             titleEditText.setText(cursor1.getString(cursor1.getColumnIndex(TITLE)));
             descriptionEditText.setText(cursor1.getString(cursor1.getColumnIndex(NOTES)));
             prioritySpinner.setSelection(adapter.getPosition(cursor1.getString(cursor1.getColumnIndex(PRIORITY))));
+            courseSpinner.setSelection(courseNameAdapter.getPosition(cursor1.getString(cursor1.getColumnIndex(COURSE))));
             if (Integer.parseInt(cursor1.getString(cursor1.getColumnIndex(IS_DONE))) == 0){
                 isDoneSpinner.setSelection(0);
             } else {
@@ -121,6 +121,7 @@ public class AssignmentActivity extends AppCompatActivity {
             assignment.setId((int)intentID);
             assignment.setTitle(titleEditText.getText().toString());
             assignment.setDateTime(datePicker.getYear() + "-" + (Integer) (datePicker.getMonth() + 1) + "-" +  datePicker.getDayOfMonth());
+            assignment.setCourse(courseSpinner.getSelectedItem().toString());
             assignment.setCourse(courseSpinner.getSelectedItem().toString());
             if (isDoneSpinner.getSelectedItemPosition() == 0) {
                 assignment.setIsDone(0);

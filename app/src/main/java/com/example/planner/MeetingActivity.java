@@ -26,6 +26,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
+
 import static com.example.planner.EventOpenHelper.COURSE;
 import static com.example.planner.EventOpenHelper.DATE_TIME;
 import static com.example.planner.EventOpenHelper.NOTES;
@@ -38,6 +40,7 @@ public class MeetingActivity extends AppCompatActivity {
     DatePicker datePicker;
     EditText titleEditText;
     Spinner prioritySpinner;
+    ArrayList<String> courseList;
     Spinner courseSpinner;
     EditText descriptionEditText;
     long intentID;
@@ -57,22 +60,16 @@ public class MeetingActivity extends AppCompatActivity {
         prioritySpinner = (Spinner) findViewById(R.id.priority_spinner);
         courseSpinner = (Spinner) findViewById(R.id.course_spinner);
 
+        EventOpenHelper openListHelper = new EventOpenHelper(this);
+        courseList = openListHelper.getCourseNameList();
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.priority_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         prioritySpinner.setAdapter(adapter);
 
-        final EventOpenHelper eoh = new EventOpenHelper(this);
-        Cursor cursor = eoh.getAllCourses();
-        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                cursor,
-                new String[] {eoh.NAME},
-                new int[] {android.R.id.text1},
-                0
-        );
-        cursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        courseSpinner.setAdapter(cursorAdapter);
+        ArrayAdapter<String> courseNameAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, courseList);
+        courseNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        courseSpinner.setAdapter(courseNameAdapter);
 
         intent = getIntent();
         if (intent.getExtras() != null) {
@@ -84,6 +81,7 @@ public class MeetingActivity extends AppCompatActivity {
             titleEditText.setText(cursor1.getString(cursor1.getColumnIndex(TITLE)));
             descriptionEditText.setText(cursor1.getString(cursor1.getColumnIndex(NOTES)));
             prioritySpinner.setSelection(adapter.getPosition(cursor1.getString(cursor1.getColumnIndex(PRIORITY))));
+            courseSpinner.setSelection(courseNameAdapter.getPosition(cursor1.getString(cursor1.getColumnIndex(COURSE))));
             String string_date = cursor1.getString(cursor1.getColumnIndex(DATE_TIME));
             String[]divide = string_date.split("-");
             String[]divide2 = divide[2].split(" ");

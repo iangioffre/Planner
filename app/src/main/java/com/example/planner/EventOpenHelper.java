@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EventOpenHelper extends SQLiteOpenHelper {
     static final String TAG = "EventOpenHelperTag";
 
@@ -212,6 +215,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
                 " GROUP BY a1." + PRIORITY + " HAVING a1." + PRIORITY +
                 " = (SELECT MAX(a2." + PRIORITY + ") FROM " + ASSIGNMENTS_TABLE + " a2" +
                 " WHERE NOT a2." + IS_DONE + ")";
+        Log.d(TAG, "getSelectHighestPriorityAssignmentCursor: " + sqlSelect);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(sqlSelect,null);
 
@@ -253,7 +257,7 @@ public class EventOpenHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAssignment(long id) {
-        String sqlSelect = " SELECT * FROM " + ASSIGNMENTS_TABLE + " WHERE " + ID + " = " + id;
+        String sqlSelect = "SELECT * FROM " + ASSIGNMENTS_TABLE + " WHERE " + ID + " = " + id;
         Log.d(TAG, "getAssignment: " + sqlSelect);
 
         SQLiteDatabase db = getReadableDatabase();
@@ -275,5 +279,21 @@ public class EventOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlUpdate);
         db.close();
+    }
+
+    public ArrayList<String> getCourseNameList() {
+        String sqlSelect = "SELECT * FROM " + COURSES_TABLE;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+
+        ArrayList<String> names = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                names.add(cursor.getString(cursor.getColumnIndex(NAME)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return names;
     }
 }
