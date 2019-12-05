@@ -41,11 +41,34 @@ public class ClassListActivity extends AppCompatActivity {
                 TextView tv2 = view.findViewById(android.R.id.text2);
 
                 String name = cursor.getString(cursor.getColumnIndex(openHelper.NAME));
+                int monday = cursor.getInt(cursor.getColumnIndex(openHelper.ON_MONDAY));
+                int tuesday = cursor.getInt(cursor.getColumnIndex(openHelper.ON_TUESDAY));
+                int wednesday = cursor.getInt(cursor.getColumnIndex(openHelper.ON_WEDNESDAY));
+                int thursday = cursor.getInt(cursor.getColumnIndex(openHelper.ON_THURSDAY));
+                int friday = cursor.getInt(cursor.getColumnIndex(openHelper.ON_FRIDAY));
                 String startTime = cursor.getString(cursor.getColumnIndex(openHelper.START_TIME));
-                Log.d("asdf", "bindView: " + startTime);
-                Log.d("asdf", "bindView: " + startTime.length());
                 StringBuilder modTime = new StringBuilder(startTime);
                 modTime.delete(0, 11);
+                modTime.delete(5, modTime.length());
+
+                if(friday==1 || thursday==1 || wednesday==1 || tuesday==1 || monday==1){
+                    modTime.insert(0, " ");
+                }
+                if (friday==1){
+                    modTime.insert(0,"F");
+                }
+                if (thursday==1){
+                    modTime.insert(0,"Tr");
+                }
+                if (wednesday==1){
+                    modTime.insert(0, "W");
+                }
+                if (tuesday==1){
+                    modTime.insert(0,"Tu");
+                }
+                if (monday==1){
+                    modTime.insert(0,"M");
+                }
 
                 tv1.setText(name);
                 tv2.setText(modTime);
