@@ -237,4 +237,26 @@ public class EventOpenHelper extends SQLiteOpenHelper {
 
         return cursor;
     }
+
+    public void updateMeeting(Event event) {
+        String sqlUpdate = "UPDATE " + MEETINGS_TABLE + " SET " +
+                TITLE + " = '" + event.getTitle() + "', " +
+                DATE_TIME + " = '" + event.getDateTime() + "', " +
+                COURSE + " = '" + event.getCourse() + "', " +
+                PRIORITY + " = '" + event.getPriority() + "', " +
+                NOTES + " = '" + event.getNotes() + "' WHERE " +
+                ID + " = '" + event.getId() + "'" ;
+        Log.d(TAG, "updateMeeting: " + sqlUpdate);
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(sqlUpdate);
+        db.close();
+
+
+//        "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                TITLE + " VARCHAR(50), " +
+//                DATE_TIME + " DATETIME, " +
+//                COURSE + " VARCHAR(50), " +
+//                PRIORITY + " INT UNSIGNED, " +
+//                NOTES + " VARCHAR(255), " +
+    }
 }

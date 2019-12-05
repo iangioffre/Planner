@@ -76,16 +76,16 @@ public class MainActivity extends AppCompatActivity {
 
         openHelper = new EventOpenHelper(this);
 
-        Event event = new Event();
-        event.setTitle("TITLE2");
-        event.setDateTime("2019-12-22 12:00:00");
-        openHelper.insertMeeting(event);
-
-        Assignment assignment = new Assignment();
-        assignment.setTitle("My Assignment");
-        assignment.setCourse("None");
-        assignment.setPriority(3);
-        openHelper.insertAssignment(assignment);
+//        Event event = new Event();
+//        event.setTitle("TITLE2");
+//        event.setDateTime("2019-12-22 12:00:00");
+//        openHelper.insertMeeting(event);
+//
+//        Assignment assignment = new Assignment();
+//        assignment.setTitle("My Assignment");
+//        assignment.setCourse("None");
+//        assignment.setPriority(3);
+//        openHelper.insertAssignment(assignment);
     }
 
     @Override

@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import static com.example.planner.EventOpenHelper.COURSE;
+import static com.example.planner.EventOpenHelper.DATE_TIME;
 import static com.example.planner.EventOpenHelper.NOTES;
 import static com.example.planner.EventOpenHelper.PRIORITY;
 import static com.example.planner.EventOpenHelper.TITLE;
@@ -84,8 +85,16 @@ public class MeetingActivity extends AppCompatActivity {
             titleEditText.setText(cursor1.getString(cursor1.getColumnIndex(TITLE)));
             descriptionEditText.setText(cursor1.getString(cursor1.getColumnIndex(NOTES)));
             prioritySpinner.setSelection(adapter.getPosition(cursor1.getString(cursor1.getColumnIndex(PRIORITY))));
-            //datePicker.set
-
+            String string_date = cursor1.getString(cursor1.getColumnIndex(DATE_TIME));
+            String[]divide = string_date.split("-");
+            String[]divide2 = divide[2].split(" ");
+            String[]divide3 = divide2[1].split(":");
+            int year = Integer.parseInt(divide[0]);
+            int month = Integer.parseInt(divide[1]) - 1;
+            int day = Integer.parseInt(divide2[0]);
+            datePicker.updateDate(year, month, day);
+            timePicker.setCurrentHour(Integer.parseInt(divide3[0]));
+            timePicker.setCurrentMinute(Integer.parseInt(divide3[1]));
         }
     }
 
@@ -123,17 +132,28 @@ public class MeetingActivity extends AppCompatActivity {
 
     public void saveMeeting () {
         if (intent.getExtras() != null) {
-            // update existing thing
+            EventOpenHelper eventOpenHelper = new EventOpenHelper(this);
+
+            int hour = timePicker.getCurrentHour();
+            int minute = timePicker.getCurrentMinute();
+
+            Event event = new Event();
+            event.setId((int)intentID);
+            event.setTitle(titleEditText.getText().toString());
+            event.setDateTime(datePicker.getYear() + "-" + (Integer) (datePicker.getMonth() + 1) + "-" +  datePicker.getDayOfMonth() + " " + String.format("%02d", hour) + ":" + String.format("%02d", minute));
+            event.setCourse(courseSpinner.getSelectedItem().toString());
+            event.setPriority(Integer.parseInt(prioritySpinner.getSelectedItem().toString()));
+            event.setNotes(descriptionEditText.getText().toString());
+            eventOpenHelper.updateMeeting(event);
         } else {
             EventOpenHelper eventOpenHelper = new EventOpenHelper(this);
 
             int hour = timePicker.getCurrentHour();
             int minute = timePicker.getCurrentMinute();
 
-
             Event event = new Event();
             event.setTitle(titleEditText.getText().toString());
-            event.setDateTime(datePicker.getYear() + "-" + datePicker.getMonth() + "-" +  datePicker.getDayOfMonth() + " " + String.format("%02d", hour) + ":" + String.format("%02d", minute));
+            event.setDateTime(datePicker.getYear() + "-" + (Integer) (datePicker.getMonth() + 1) + "-" +  datePicker.getDayOfMonth() + " " + String.format("%02d", hour) + ":" + String.format("%02d", minute));
             event.setCourse(courseSpinner.getSelectedItem().toString());
             event.setPriority(Integer.parseInt(prioritySpinner.getSelectedItem().toString()));
             event.setNotes(descriptionEditText.getText().toString());
