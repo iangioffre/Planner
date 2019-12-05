@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(MainActivity.this, EditActivity.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
             }
         });
 
@@ -190,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.addMenuItem:
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.addClassMenuItem:
+                // go to add class activity
                 return true;
             case R.id.classListMenuItem:
                 // show class list
