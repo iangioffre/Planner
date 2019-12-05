@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -105,15 +106,17 @@ public class AssignmentActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.saveMenuItem:
-                saveAssignment();
-                finish();
+                boolean isSaved = saveAssignment();
+                if (isSaved) {
+                    finish();
+                }
                 return true;
         }
         return true;
     }
 
 
-    public void saveAssignment () {
+    public boolean saveAssignment () {
         if (intent.getExtras() != null) {
             EventOpenHelper eventOpenHelper = new EventOpenHelper(this);
 
@@ -130,7 +133,13 @@ public class AssignmentActivity extends AppCompatActivity {
             }
             assignment.setPriority(Integer.parseInt(prioritySpinner.getSelectedItem().toString()));
             assignment.setNotes(descriptionEditText.getText().toString());
-            eventOpenHelper.updateAssignment(assignment);
+            if(eventOpenHelper.isNewAssignment(assignment.getDateTime(), assignment.getTitle())) {
+                eventOpenHelper.updateAssignment(assignment);
+                return true;
+            } else {
+                Toast.makeText(getApplicationContext(), "Meeting already in Database! Please change title, date, or time", Toast.LENGTH_LONG).show();
+                return false;
+            }
 
     } else {
             EventOpenHelper eventOpenHelper = new EventOpenHelper(this);
@@ -146,7 +155,14 @@ public class AssignmentActivity extends AppCompatActivity {
             }
             assignment.setPriority(Integer.parseInt(prioritySpinner.getSelectedItem().toString()));
             assignment.setNotes(descriptionEditText.getText().toString());
-            eventOpenHelper.insertAssignment(assignment);
+
+            if(eventOpenHelper.isNewAssignment(assignment.getDateTime(), assignment.getTitle())) {
+                eventOpenHelper.insertAssignment(assignment);
+                return true;
+            } else {
+                Toast.makeText(getApplicationContext(), "Meeting already in Database! Please change title, date, or time", Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
     }
 }

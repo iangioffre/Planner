@@ -233,6 +233,28 @@ public class EventOpenHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean isNewMeeting (String dateTime, String title) {
+        String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " WHERE " + TITLE + " = '" + title + "' AND " + DATE_TIME + " = '" + dateTime + "'";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+        if (cursor.getCount() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isNewAssignment (String dateTime, String title) {
+        String sqlSelect = "SELECT * FROM " + ASSIGNMENTS_TABLE + " WHERE " + TITLE + " = '" + title + "' AND " + DATE_TIME + " = '" + dateTime + "'";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlSelect,null);
+        if (cursor.getCount() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public Cursor getMeeting(long id) {
         String sqlSelect = "SELECT * FROM " + MEETINGS_TABLE + " WHERE " + ID + " = " + id;
         Log.d(TAG, "getMeeting: " + sqlSelect);

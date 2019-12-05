@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -119,17 +120,20 @@ public class MeetingActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.saveMenuItem:
-                saveMeeting();
-                finish();
+                boolean didSave = saveMeeting();
+                if (didSave){
+                    finish();
+                }
                 return true;
         }
         return true;
     }
 
 
-    public void saveMeeting () {
+    public boolean saveMeeting () {
         if (intent.getExtras() != null) {
             EventOpenHelper eventOpenHelper = new EventOpenHelper(this);
+
 
             int hour = timePicker.getCurrentHour();
             int minute = timePicker.getCurrentMinute();
@@ -141,7 +145,15 @@ public class MeetingActivity extends AppCompatActivity {
             event.setCourse(courseSpinner.getSelectedItem().toString());
             event.setPriority(Integer.parseInt(prioritySpinner.getSelectedItem().toString()));
             event.setNotes(descriptionEditText.getText().toString());
-            eventOpenHelper.updateMeeting(event);
+
+            if (eventOpenHelper.isNewMeeting(event.getDateTime(), event.getTitle())) {
+                eventOpenHelper.updateMeeting(event);
+                return true;
+            } else {
+                Toast.makeText(getApplicationContext(), "Meeting already in Database! Please change title, date, or time", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
         } else {
             EventOpenHelper eventOpenHelper = new EventOpenHelper(this);
 
@@ -150,12 +162,22 @@ public class MeetingActivity extends AppCompatActivity {
 
             Event event = new Event();
             event.setTitle(titleEditText.getText().toString());
-            event.setDateTime(datePicker.getYear() + "-" + (Integer) (datePicker.getMonth() + 1) + "-" +  datePicker.getDayOfMonth() + " " + String.format("%02d", hour) + ":" + String.format("%02d", minute));
+            event.setDateTime(datePicker.getYear() + "-" + (Integer) (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth() + " " + String.format("%02d", hour) + ":" + String.format("%02d", minute));
             event.setCourse(courseSpinner.getSelectedItem().toString());
             event.setPriority(Integer.parseInt(prioritySpinner.getSelectedItem().toString()));
             event.setNotes(descriptionEditText.getText().toString());
-            eventOpenHelper.insertMeeting(event);
+
+            if (eventOpenHelper.isNewMeeting(event.getDateTime(), event.getTitle())) {
+                eventOpenHelper.insertMeeting(event);
+                return true;
+            } else {
+                Toast.makeText(getApplicationContext(), "Meeting already in Database! Please change title, date, or time", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
         }
+
+
     }
 
 }
