@@ -212,7 +212,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(assignmentIntent);
                 return true;
             case R.id.addClassMenuItem:
-                // go to add class activity
+                Intent intent2 = new Intent(MainActivity.this, AddClassActivity.class);
+                startActivity(intent2);
                 return true;
             case R.id.classListMenuItem:
                 // show class list
