@@ -21,11 +21,13 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -57,18 +59,32 @@ public class EditActivity extends AppCompatActivity {
         );
         cursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courseSpinner.setAdapter(cursorAdapter);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            EditText title = (EditText) findViewById(R.id.title_edit_text);
+
+
+        }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.edit_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.saveMenuItem:
+                saveCourse();
+                return true;
         }
-        return true;
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
 
@@ -80,6 +96,10 @@ public class EditActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void saveCourse () {
+
     }
 
 }
